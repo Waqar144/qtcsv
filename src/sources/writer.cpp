@@ -7,6 +7,9 @@
 #include <QTextStream>
 #include <QCoreApplication>
 #include <QDebug>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#include <QRandomGenerator>
+#endif
 
 #include "include/abstractdata.h"
 #include "filechecker.h"
@@ -146,7 +149,13 @@ QString WriterPrivate::getTempFileName()
 
     for (int counter = 0; counter < std::numeric_limits<int>::max(); ++counter)
     {
-        QString name = nameTemplate.arg(QString::number(qrand()));
+#if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
+        const quint32 number = qrand();
+#else
+        const quint32 number = QRandomGenerator::global()->generate();
+#endif
+
+        QString name = nameTemplate.arg(QString::number(number));
         if ( false == QFile::exists(name) )
         {
             return name;
