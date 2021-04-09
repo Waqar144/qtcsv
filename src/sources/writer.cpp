@@ -78,7 +78,9 @@ bool WriterPrivate::appendToFile(const QString& filePath,
     }
 
     QTextStream stream(&csvFile);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     stream.setCodec(codec);
+#endif
     while( content.hasNext() )
     {
         stream << content.getNext();

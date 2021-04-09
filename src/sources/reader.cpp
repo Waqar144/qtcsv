@@ -89,7 +89,9 @@ bool ReaderPrivate::read(const QString& filePath,
     }
 
     QTextStream stream(&csvFile);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     stream.setCodec(codec);
+#endif
 
     // This list will contain elements of the row if elements of this row
     // are located on several lines
