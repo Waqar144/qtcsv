@@ -36,7 +36,7 @@ private:
                                      ElementInfo& elemInfo);
 
     // Try to find end position of first or middle element
-    static int FindMiddleElementPositioin(const QString& str,
+    static int FindMiddleElementPosition(const QString& str,
                                           const int& startPos,
                                           const QString& separator,
                                           const QString& txtDelim);
@@ -228,7 +228,7 @@ QStringList ReaderPrivate::splitElements(const QString& line,
                 // 1. Be the first or the middle element. Then it should end
                 // with delimiter and the seprator symbols standing next to each
                 // other.
-                int midElemEndPos = FindMiddleElementPositioin(
+                int midElemEndPos = FindMiddleElementPosition(
                                         line, pos, separator, textDelimiter);
                 if (midElemEndPos > 0)
                 {
@@ -289,7 +289,7 @@ QStringList ReaderPrivate::splitElements(const QString& line,
             // 1. End somewhere in the middle of the line. Then it should end
             // with delimiter and the seprator symbols standing next to each
             // other.
-            int midElemEndPos = FindMiddleElementPositioin(
+            int midElemEndPos = FindMiddleElementPosition(
                                 line, pos, separator, textDelimiter);
             if (midElemEndPos > 0)
             {
@@ -327,7 +327,7 @@ QStringList ReaderPrivate::splitElements(const QString& line,
 // @output:
 // - int - end position of the element or -1 if this element is not first
 // or middle
-int ReaderPrivate::FindMiddleElementPositioin(const QString& str,
+int ReaderPrivate::FindMiddleElementPosition(const QString& str,
                                               const int& startPos,
                                               const QString& separator,
                                               const QString& txtDelim)
