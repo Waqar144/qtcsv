@@ -361,8 +361,8 @@ int ReaderPrivate::FindMiddleElementPosition(const QString& str,
         int numOfDelimiters = 0;
         for (int pos = elemEndPos; startPos <= pos; --pos, ++numOfDelimiters)
         {
-            QStringRef strRef = str.midRef(pos, txtDelim.size());
-            if (QStringRef::compare(strRef, txtDelim) != 0)
+            QString strRef = str.mid(pos, txtDelim.size());
+            if (QString::compare(strRef, txtDelim) != 0)
             {
                 break;
             }
@@ -423,8 +423,8 @@ bool ReaderPrivate::IsElementLast(const QString& str,
     int numOfDelimiters = 0;
     for (int pos = str.size() - 1; startPos <= pos; --pos, ++numOfDelimiters)
     {
-        QStringRef strRef = str.midRef(pos, txtDelim.size());
-        if (QStringRef::compare(strRef, txtDelim) != 0)
+        QString strRef = str.mid(pos, txtDelim.size());
+        if (QString::compare(strRef, txtDelim) != 0)
         {
             break;
         }
