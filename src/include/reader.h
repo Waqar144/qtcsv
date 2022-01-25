@@ -2,11 +2,14 @@
 #define QTCSVREADER_H
 
 #include <QList>
+#include <QStringList>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QStringConverter>
+#else
 #include <QTextCodec>
+#endif
 
 #include "qtcsv_global.h"
-
-class QStringList;
 
 namespace QtCSV
 {
@@ -32,7 +35,11 @@ namespace QtCSV
         static QList<QStringList> readToList(const QString& filePath,
                         const QString& separator = QString(","),
                         const QString& textDelimiter = QString("\""),
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                        QStringConverter::Encoding codec = QStringConverter::Utf8);
+#else
                         QTextCodec* codec = QTextCodec::codecForName("UTF-8"));
+#endif
 
         // Read csv-file and save it's data to AbstractData-based container
         // class
@@ -40,7 +47,11 @@ namespace QtCSV
                         AbstractData& data,
                         const QString& separator = QString(","),
                         const QString& textDelimiter = QString("\""),
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                        QStringConverter::Encoding codec = QStringConverter::Utf8);
+#else
                         QTextCodec* codec = QTextCodec::codecForName("UTF-8"));
+#endif
     };
 }
 

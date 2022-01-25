@@ -5,6 +5,10 @@
 #include <QTextStream>
 #include <QDebug>
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QStringConverter>
+#endif
+
 #include "../include/abstractdata.h"
 #include "../sources/filechecker.h"
 #include "../sources/symbols.h"
@@ -18,11 +22,21 @@ class ReaderPrivate
 public:
     // Function that really reads csv-file and save it's data as strings to
     // QList<QStringList>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     static bool read(const QString& filePath,
                      QList<QStringList>& list,
                      const QString& separator,
                      const QString& textDelimiter,
                      QTextCodec* codec);
+#else
+    static bool read(
+        const QString& filePath,
+        QList<QStringList>& list,
+        const QString& separator,
+        const QString& textDelimiter,
+        QStringConverter::Encoding codec);
+#endif
 
 private:
     // Check if file path and separator are valid
@@ -74,7 +88,11 @@ bool ReaderPrivate::read(const QString& filePath,
                             QList<QStringList>& list,
                             const QString& separator,
                             const QString& textDelimiter,
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                             QTextCodec* codec)
+#else
+                         QStringConverter::Encoding codec)
+#endif
 {
     if ( false == checkParams(filePath, separator) )
     {
@@ -91,6 +109,8 @@ bool ReaderPrivate::read(const QString& filePath,
     QTextStream stream(&csvFile);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     stream.setCodec(codec);
+#else
+    stream.setEncoding(codec);
 #endif
 
     // This list will contain elements of the row if elements of this row
@@ -492,7 +512,11 @@ QStringList ReaderPrivate::removeTextDelimiters(const QStringList& elements,
 QList<QStringList> Reader::readToList(const QString& filePath,
                                       const QString& separator,
                                       const QString& textDelimiter,
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                                      QStringConverter::Encoding codec)
+#else
                                       QTextCodec* codec)
+#endif
 {
     QList<QStringList> data;
     ReaderPrivate::read(filePath, data, separator, textDelimiter, codec);
@@ -514,7 +538,11 @@ bool Reader::readToData(const QString& filePath,
                         AbstractData& data,
                         const QString& separator,
                         const QString& textDelimiter,
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                        QStringConverter::Encoding codec)
+#else
                         QTextCodec* codec)
+#endif
 {
     QList<QStringList> list;
     if (false == ReaderPrivate::read(filePath, list, separator, textDelimiter,
