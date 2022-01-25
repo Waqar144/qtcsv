@@ -11,7 +11,7 @@
 
 using namespace QtCSV;
 
-class ElementInfo;
+struct ElementInfo;
 
 class ReaderPrivate
 {
